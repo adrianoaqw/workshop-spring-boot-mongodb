@@ -1,8 +1,7 @@
 package com.example.demo.resource;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.domain.User;
+import com.example.demo.dto.UserDTO;
 import com.example.demo.services.UserService;
 
 @RestController   //| Para definir a class para ser um recurso Rest 
@@ -21,11 +21,11 @@ public class UserResource {
 	private UserService service;
 	@RequestMapping(method=RequestMethod.GET) //|para dizer que o EndPoint Rest vai ser no caminho value="/users" ou pode ser @GetMapping
 	
-	public ResponseEntity< List<User>> findAll(){ //| metodo para retornar uma lista de usuarios, findAll para buscar todos
+	public ResponseEntity< List<UserDTO>> findAll(){ //| metodo para retornar uma lista de usuarios, findAll para buscar todos
 		
 		List<User> list = service.findAll();                          //| inplementação da class List  / ArrayList
-		
-		return ResponseEntity.ok().body(list);    //| retornando a lista, body pra definiro o corpo da resposta 
+		List<UserDTO> listDTO = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);    //| retornando a lista, body pra definiro o corpo da resposta 
 	}
 }
 
