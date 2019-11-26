@@ -2,25 +2,31 @@ package com.example.demo.domain;
 
 import java.io.Serializable;
 
-public class User implements Serializable{
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection="user")//| ou pode so ser @Documente para relaciona o user ao mongoDB 
+public class User implements Serializable{           // A Serializable e um mecanismo de connverção de um objeto em um fluxo de bytes.Este mecanismo e usado para persistir o objeto
+
+	private static final long serialVersionUID = 1L;        
 	
-	private static final long serialVersionUID = 1L;
-	private String id;
-	private String nome;
-	private String email;
+	@Id
+	private String id;    //|
+	private String nome;  //|-----Atributos basicos 
+	private String email; //|
 
 	public User() {
-		
+		//| Construtor
 	}
 
 	public User(String id, String nome, String email) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		this.nome = nome;           //|Construtor recebendo os atributos como parametro 
 		this.email = email;
 	}
 
+	//| GET E SET
 	public String getId() {
 		return id;
 	}
@@ -45,6 +51,9 @@ public class User implements Serializable{
 		this.email = email;
 	}
 
+	//| HashCode e Equals
+	//|Para que os objetos seja comparados pelo name e ID
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
